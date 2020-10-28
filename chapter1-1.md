@@ -1,4 +1,4 @@
-# 第零步
+# 环境配置
 
 [typescript]: https://www.typescriptlang.org/	"typescript"
 [yarn]: https://classic.yarnpkg.com/zh-Hans/	"Yarn"
