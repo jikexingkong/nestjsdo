@@ -8,7 +8,6 @@ import {
     Param,
     ParseUUIDPipe,
     Post,
-    ValidationPipe,
 } from '@nestjs/common';
 
 @Controller('comments')
@@ -19,12 +18,7 @@ export class CommentController extends BaseController {
 
     @Post()
     async store(
-        @Body(
-            new ValidationPipe({
-                transform: true,
-                forbidUnknownValues: true,
-            }),
-        )
+        @Body()
         data: CreateCommentDto,
     ) {
         return await this.commentService.create(data);

@@ -10,7 +10,6 @@ import {
     ParseUUIDPipe,
     Patch,
     Post,
-    ValidationPipe,
 } from '@nestjs/common';
 
 @Controller('categories')
@@ -31,13 +30,7 @@ export class CategoryController extends BaseController {
 
     @Post()
     async store(
-        @Body(
-            new ValidationPipe({
-                transform: true,
-                forbidUnknownValues: true,
-                groups: ['create'],
-            }),
-        )
+        @Body()
         data: CreateCategoryDto,
     ) {
         return this.categoryService.create(data);
@@ -45,14 +38,7 @@ export class CategoryController extends BaseController {
 
     @Patch()
     async update(
-        @Body(
-            new ValidationPipe({
-                transform: true,
-                forbidUnknownValues: true,
-                skipMissingProperties: true,
-                groups: ['update'],
-            }),
-        )
+        @Body()
         data: UpdateCategoryDto,
     ) {
         return this.categoryService.update(data);

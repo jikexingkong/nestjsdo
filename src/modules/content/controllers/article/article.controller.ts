@@ -15,7 +15,6 @@ import {
     Patch,
     Post,
     Query,
-    ValidationPipe,
 } from '@nestjs/common';
 
 @Controller('articles')
@@ -26,12 +25,7 @@ export class ArticleController extends BaseController {
 
     @Get()
     async index(
-        @Query(
-            new ValidationPipe({
-                transform: true,
-                forbidUnknownValues: true,
-            }),
-        )
+        @Query()
         { category }: QueryArticleDto,
     ) {
         return await this.articleService.findList({ category });
@@ -44,13 +38,7 @@ export class ArticleController extends BaseController {
 
     @Post()
     async store(
-        @Body(
-            new ValidationPipe({
-                transform: true,
-                forbidUnknownValues: true,
-                groups: ['create'],
-            }),
-        )
+        @Body()
         data: CreateArticleDto,
     ) {
         return await this.articleService.create(data);
@@ -58,14 +46,7 @@ export class ArticleController extends BaseController {
 
     @Patch()
     async update(
-        @Body(
-            new ValidationPipe({
-                transform: true,
-                forbidUnknownValues: true,
-                skipMissingProperties: true,
-                groups: ['update'],
-            }),
-        )
+        @Body()
         data: UpdateArticleDto,
     ) {
         return await this.articleService.update(data);

@@ -23,8 +23,8 @@ export class Article extends BaseEntity {
     @Column({ comment: '文章内容', type: 'longtext' })
     body!: string;
 
-    @Column({ comment: '文章描述', nullable: true })
-    description?: string;
+    @Column({ comment: '文章描述', type: 'longtext', nullable: true })
+    summary?: string;
 
     @Column({ comment: '关键字', type: 'simple-array', nullable: true })
     keywords?: string[];
