@@ -5,8 +5,8 @@ import { CreateArticleDto } from './create-article.dto';
 
 @Injectable()
 export class UpdateArticleDto extends PartialType(CreateArticleDto) {
-    // 在create组下必填
-    @IsDefined({ groups: ['update'] })
-    @IsUUID(undefined, { groups: ['update'] })
+    // 在update组下必填
+    @IsDefined({ groups: ['update'], message: '文章ID必须指定' })
+    @IsUUID(undefined, { groups: ['update'], message: '文章ID格式错误' })
     id!: string;
 }

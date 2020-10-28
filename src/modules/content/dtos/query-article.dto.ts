@@ -4,6 +4,6 @@ import { IsOptional, IsUUID } from 'class-validator';
 @Injectable()
 export class QueryArticleDto {
     @IsOptional()
-    @IsUUID()
+    @IsUUID(undefined, { groups: ['update'], message: '分类ID格式错误' })
     category?: string;
 }
