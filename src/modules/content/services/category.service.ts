@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateCategoryDto, UpdateCategoryDto } from '../dtos';
 import { Category } from '../entities';
 import { CategoryRepository } from '../repositories';
@@ -28,20 +28,17 @@ export class CategoryService {
     }
 
     async update(updateDto: UpdateCategoryDto) {
-        const { id, parent, ...createData } = updateDto;
-        const data: Omit<UpdateCategoryDto, 'id' | 'parent'> & {
+        const { parent, ...updateData } = updateDto;
+        const data: Omit<UpdateCategoryDto, 'parent'> & {
             parent?: Category;
-        } = { ...createData };
-        if (!(await this.categoryRepository.findOne(id))) {
-            throw new ForbiddenException('category not exists');
-        }
+        } = { ...updateData };
         if (parent) {
             data.parent = await this.categoryRepository.findOneOrFail(parent);
         }
         if (Object.keys(data).length > 0) {
-            await this.categoryRepository.update(id, data);
+            await this.categoryRepository.save(data);
         }
-        return await this.findOneOrFail(id);
+        return await this.findOneOrFail(data.id);
     }
 
     async delete(id: string) {
