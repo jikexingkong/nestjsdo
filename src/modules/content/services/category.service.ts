@@ -35,9 +35,7 @@ export class CategoryService {
         if (parent) {
             data.parent = await this.categoryRepository.findOneOrFail(parent);
         }
-        if (Object.keys(data).length > 0) {
-            await this.categoryRepository.save(data);
-        }
+        await this.categoryRepository.save(data);
         return await this.findOneOrFail(data.id);
     }
 
