@@ -6,7 +6,10 @@ import {
 } from '@/core';
 import { Injectable } from '@nestjs/common';
 import { IsNotEmpty, IsOptional, IsUUID, MaxLength } from 'class-validator';
+import { getManager } from 'typeorm';
 import { Category } from '../entities';
+import { CategoryRepository } from '../repositories';
+import { UpdateCategoryDto } from './update-category.dto';
 
 @Injectable()
 @DtoValidationoOptions({ groups: ['create'] })
@@ -59,5 +62,15 @@ export class CreateCategoryDto {
     @IsOptional({ always: true })
     @IsUUID(undefined, { always: true, message: '分类ID格式不正确' })
     @IsModelExist(Category, { always: true, message: '父分类不存在' })
-    parent?: string;
+    parent?: Category;
+
+    async transform(obj: CreateCategoryDto | UpdateCategoryDto) {
+        const em = getManager();
+        if (obj.parent) {
+            obj.parent = await em
+                .getCustomRepository(CategoryRepository)
+                .findOneOrFail(obj.parent);
+        }
+        return obj;
+    }
 }

@@ -50,9 +50,11 @@ export class DtoValidationPipe extends ValidationPipe {
         );
         // 验证并transform dto对象
         let result = await super.transform(value, metadata);
-        // 如果dto类中存在transform方法,则返回调用进一步transform之后的结果
-        if (typeof dto.transform === 'function') {
-            result = await dto.transform(result);
+        // 如果dto类的原型链中存在transform方法,则返回调用进一步transform之后的结果
+        if (typeof result.transform === 'function') {
+            result = await result.transform(result);
+            const { transform, ...data } = result;
+            result = data;
         }
         // 重置验证选项
         this.validatorOptions = originOptions;
