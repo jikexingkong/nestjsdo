@@ -2,5 +2,8 @@ export * from './base';
 export * from './constraints';
 export * from './core.module';
 export * from './decorators';
+export * from './gkr';
 export * from './helpers';
+export * from './interface';
 export * from './pipes';
+export * from './utils';

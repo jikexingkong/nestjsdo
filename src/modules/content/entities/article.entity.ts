@@ -1,3 +1,4 @@
+import { time } from '@/core';
 import {
     BaseEntity,
     Column,
@@ -36,6 +37,11 @@ export class Article extends BaseEntity {
         comment: '发布时间',
         type: 'varchar',
         nullable: true,
+        transformer: {
+            from: (date) =>
+                date ? time({ date }).format('YYYY-MM-DD HH:mm:ss') : null,
+            to: (date?: Date | null) => date || null,
+        },
     })
     published_at?: Date | null;
 
@@ -62,11 +68,19 @@ export class Article extends BaseEntity {
 
     @CreateDateColumn({
         comment: '创建时间',
+        transformer: {
+            from: (date) => time({ date }).format('YYYY-MM-DD HH:mm:ss'),
+            to: (date) => date,
+        },
     })
     created_at!: Date;
 
     @UpdateDateColumn({
         comment: '更新时间',
+        transformer: {
+            from: (date) => time({ date }).format('YYYY-MM-DD HH:mm:ss'),
+            to: (date) => date,
+        },
     })
     updated_at!: Date;
 }
