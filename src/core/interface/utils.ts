@@ -1,3 +1,4 @@
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import dayjs from 'dayjs';
 /** ****************************************** Time Util **************************************** */
 /**
@@ -11,13 +12,9 @@ export interface TimeOptions {
     zonetime?: string;
 }
 
-/** ****************************************** 数据库配置 **************************************** */
+/** ****************************************** Dabase Util **************************************** */
 
-export interface DatabaseConfig {
-    default: string;
-    enabled: string[];
-    connections: DbOption[];
-    common: {
-        [key: string]: any;
-    };
-}
+/**
+ * 数据库连接配置
+ */
+export type DbOption = TypeOrmModuleOptions & { [key: string]: any };

@@ -4,42 +4,39 @@ import {
     getConnectionManager,
     ObjectType,
 } from 'typeorm';
-import { DbOptionsType } from '../constants';
 import { Gkr } from '../gkr';
-import { DbOptions } from '../interface';
+import { DbOption } from '../interface';
 import { Database } from '../utils';
 
 const db = () => Gkr.util.get(Database);
 
-// -------------------------------------------------------------------------
+/// -------------------------------------------------------------------------
 // 全局变量用于存储当前数据库连接
 // -------------------------------------------------------------------------
 (global as any).db = {
     name: 'default',
     connection: undefined,
 };
+
 /**
- * 获取一个类型的所有数据库连接配置
- * 默认为Typeorm原始连接类型
+ * 获取所有数据库的连接配置
  *
  * @export
- * @param {DbOptionsType} [type]
- * @returns {DbOptions[]}
+ * @returns {DbOption[]}
  */
-export function dbConfigs(type?: DbOptionsType): DbOptions[] {
-    return db().getOptions(type);
+export function dbConfigs(): DbOption[] {
+    return db().getOptions();
 }
 
 /**
- * 通过连接名与类型获取此连接的数据库配置
+ * 通过名称获取一个数据库的连接配置
  *
  * @export
  * @param {string} [name]
- * @param {DbOptionsType} [type]
- * @returns {DbOptions}
+ * @returns {DbOption}
  */
-export function dbConfig(name?: string, type?: DbOptionsType): DbOptions {
-    return db().getOption(name, type);
+export function dbConfig(name?: string): DbOption {
+    return db().getOption(name);
 }
 
 /**

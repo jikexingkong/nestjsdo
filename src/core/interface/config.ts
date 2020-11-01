@@ -1,5 +1,7 @@
 /** ****************************************** 配置类接口 **************************************** */
 
+import { DbOption } from './utils';
+
 // 配置注册函数
 export type ConfigRegister<T> = () => T;
 // 多个配置集合对象
@@ -26,11 +28,9 @@ export interface AppConfig {
 
 /** ****************************************** 数据库配置 **************************************** */
 
-export interface DatabaseConfig {
+export interface DatabaseConfig<T extends DbOption = DbOption> {
     default: string;
     enabled: string[];
-    connections: DbOption[];
-    common: {
-        [key: string]: any;
-    };
+    connections: T[];
+    common: { [key: string]: any };
 }
