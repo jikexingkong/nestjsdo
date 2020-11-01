@@ -1,7 +1,5 @@
 /** ****************************************** 配置类接口 **************************************** */
 
-import { DbAdditional, DbOptionCollection } from './utils';
-
 // 配置注册函数
 export type ConfigRegister<T> = () => T;
 // 多个配置集合对象
@@ -31,13 +29,8 @@ export interface AppConfig {
 export interface DatabaseConfig {
     default: string;
     enabled: string[];
-    connections: DbConnectionConfig[];
-    common: DbAdditional & {
+    connections: DbOption[];
+    common: {
         [key: string]: any;
     };
 }
-
-/**
- * 用于配置文件中的数据库链接配置
- */
-export type DbConnectionConfig = DbOptionCollection & DbAdditional;
