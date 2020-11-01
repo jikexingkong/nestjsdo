@@ -31,7 +31,10 @@ export type DbOptions =
 /**
  * 运行自定义CLI命令时的数据库连接配置
  */
-export type DbCliOptions = ConnectionOptions & {};
+export type DbCliOptions = ConnectionOptions & {
+    readonly factories?: string[];
+    readonly seeds?: string[];
+};
 
 /**
  * 用于Nest Typeorm Module的配置

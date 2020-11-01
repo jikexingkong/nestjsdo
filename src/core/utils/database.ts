@@ -4,7 +4,7 @@
  * Homepage     : https://gkr.io
  * My Blog      : https://lichnow.com
  * Date         : 2020-03-01 23:19:16 +0800
- * LastEditTime : 2020-10-29 23:00:12 +0800
+ * LastEditTime : 2020-11-01 12:57:32 +0800
  * Licensed     : MIT
  */
 
@@ -12,7 +12,7 @@ import { DynamicModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import merge from 'deepmerge';
 import { omit } from 'lodash';
-import { Connection, ConnectionOptions, getConnectionManager } from 'typeorm';
+import { ConnectionOptions } from 'typeorm';
 import { DbOptionsType } from '../constants';
 import {
     DatabaseConfig,
@@ -205,44 +205,44 @@ export class Database extends BaseUtil<DbOptionCollection[]> {
 
     /** ****************************************** CLI方法 **************************************** */
 
-    /**
-     * 创建一个临时连接
-     * 主要用于CLI操作
-     *
-     * @param {string} [name]
-     * @returns {Promise<Connection>}
-     * @memberof DatabaseUtil
-     */
-    async createConnection(name?: string): Promise<Connection> {
-        const option = this.getOption(name);
-        return getConnectionManager()
-            .create(option as ConnectionOptions)
-            .connect();
-    }
+    // /**
+    //  * 创建一个临时连接
+    //  * 主要用于CLI操作
+    //  *
+    //  * @param {string} [name]
+    //  * @returns {Promise<Connection>}
+    //  * @memberof DatabaseUtil
+    //  */
+    // async createConnection(name?: string): Promise<Connection> {
+    //     const option = this.getOption(name);
+    //     return getConnectionManager()
+    //         .create(option as ConnectionOptions)
+    //         .connect();
+    // }
 
-    /**
-     * 关闭外键检测,防止数据注入出错
-     *
-     * @param {Connection} connection
-     * @param {boolean} [enabled=false]
-     * @returns {Promise<Connection>}
-     * @memberof DatabaseUtil
-     */
-    async resetForeignKey(
-        connection: Connection,
-        enabled = true,
-    ): Promise<Connection> {
-        const { type } = connection.driver.options;
-        let key: string;
-        let query: string;
-        if (type === 'sqlite') {
-            key = enabled ? 'OFF' : 'ON';
-            query = `PRAGMA foreign_keys = ${key};`;
-        } else {
-            key = enabled ? '0' : '1';
-            query = `SET FOREIGN_KEY_CHECKS = ${key};`;
-        }
-        await connection.query(query);
-        return connection;
-    }
+    // /**
+    //  * 关闭外键检测,防止数据注入出错
+    //  *
+    //  * @param {Connection} connection
+    //  * @param {boolean} [enabled=false]
+    //  * @returns {Promise<Connection>}
+    //  * @memberof DatabaseUtil
+    //  */
+    // async resetForeignKey(
+    //     connection: Connection,
+    //     enabled = true,
+    // ): Promise<Connection> {
+    //     const { type } = connection.driver.options;
+    //     let key: string;
+    //     let query: string;
+    //     if (type === 'sqlite') {
+    //         key = enabled ? 'OFF' : 'ON';
+    //         query = `PRAGMA foreign_keys = ${key};`;
+    //     } else {
+    //         key = enabled ? '0' : '1';
+    //         query = `SET FOREIGN_KEY_CHECKS = ${key};`;
+    //     }
+    //     await connection.query(query);
+    //     return connection;
+    // }
 }
