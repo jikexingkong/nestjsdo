@@ -4,7 +4,7 @@
  * Homepage     : https://gkr.io
  * My Blog      : https://lichnow.com
  * Date         : 2020-03-01 23:19:16 +0800
- * LastEditTime : 2020-11-01 15:20:45 +0800
+ * LastEditTime : 2020-11-01 15:32:03 +0800
  * Licensed     : MIT
  */
 
@@ -57,22 +57,24 @@ export class Database extends BaseUtil<DbOption[]> {
     /**
      * 获取所有连接配置
      *
-     * @returns {DbOptions[]}
+     * @template T
+     * @returns {T[]}
      * @memberof Database
      */
-    getOptions(): DbOption[] {
-        return this.config;
+    getOptions<T extends DbOption = DbOption>(): T[] {
+        return this.config as T[];
     }
 
     /**
      * 根据名称获取一个数据库连接的配置，可设置类型
      * name不设置的情况下返回默认连接的配置
      *
+     * @template T
      * @param {string} [name]
-     * @returns {DbOptions}
+     * @returns {T}
      * @memberof Database
      */
-    getOption(name?: string): DbOption {
+    getOption<T extends DbOption = DbOption>(name?: string): T {
         const findName: string | undefined = name ?? this._default;
         const option = this.getOptions().find((item) => item.name === findName);
         if (!option) {
@@ -80,7 +82,7 @@ export class Database extends BaseUtil<DbOption[]> {
                 `Connection named ${findName}'s option not exists!`,
             );
         }
-        return option;
+        return option as T;
     }
 
     /**
