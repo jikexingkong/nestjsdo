@@ -4,8 +4,9 @@ import ora from 'ora';
 import shell from 'shelljs';
 import { matchGlobs, panic } from '../../common';
 import { makeCurrentDb } from '../functions';
+import { TypeOrmArguments } from '../types';
 
-export const getTypeorm = async (args: any) => {
+export const getTypeorm = async (args: TypeOrmArguments) => {
     const spinner = ora('Loading database config').start();
     const configs =
         args.config ??

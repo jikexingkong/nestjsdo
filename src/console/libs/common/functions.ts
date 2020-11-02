@@ -93,30 +93,24 @@ export function panic(spinner: ora.Ora, message: string, error?: Error) {
  *
  * @export
  * @param {string} command
- * @param {string} failMsg
- * @param {string} successMsg
+ * @param {boolean} [pretty=false]
+ * @returns
  */
-export function execShell(
-    command: string,
-    failMsg: string,
-    successMsg: string,
-): void {
-    shell.exec(
-        command,
-        { async: true, silent: true },
-        (code, stdout, stderr) => {
+export function execShell(command: string, pretty: boolean = false) {
+    return new Promise((resolve, reject) => {
+        shell.exec(command, { silent: true }, (code, stdout, stderr) => {
             console.log('\n');
-            console.log(stderr ? chalk.red(stdout) : chalk.green(stdout));
-            if (stderr) {
-                console.log(chalk.red(stderr));
-                console.log(chalk.red(`\n❌ ${failMsg}!`));
-            } else {
+            if (pretty) {
                 console.log(
-                    '👍 ',
-                    chalk.greenBright.underline(`${successMsg}`),
+                    code !== 0 && stderr
+                        ? chalk.red(stdout)
+                        : chalk.green(stdout),
                 );
             }
-            process.exit(0);
-        },
-    );
+            if (code !== 0 && stderr) {
+                return reject(new Error(stderr));
+            }
+            return resolve();
+        });
+    });
 }

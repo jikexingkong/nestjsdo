@@ -1,3 +1,4 @@
+import { CLIDbOption } from '@/console/libs';
 import {
     ConfigRegister,
     DatabaseConfig,
@@ -7,7 +8,7 @@ import {
     srcPath,
 } from '@/core';
 
-export const database: ConfigRegister<DatabaseConfig> = () => ({
+export const database: ConfigRegister<DatabaseConfig<CLIDbOption>> = () => ({
     default: env('DATABASE_NAME', 'mysql'),
     enabled: ['mysql2'],
     connections: [

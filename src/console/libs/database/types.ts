@@ -1,23 +1,63 @@
+import { DbOption } from '@/core';
 import Faker from 'faker';
 import ora from 'ora';
 import { Connection, ObjectType } from 'typeorm';
+import yargs from 'yargs';
 import { EntityFactory } from './factory';
+/**
+ * 增加的CLI的数据库连接配置
+ */
+export type CLIDbOption = DbOption & {
+    factories?: string[];
+    seeds?: string[];
+};
 
 /**
- * CLI RESET DB命令参数
+ * CLI命令参数
  */
 export interface DbRefreshArguments {
     connection?: string;
-    seed: boolean;
+    seed?: string;
+    destory?: boolean;
+}
+export interface DbSeedArguments {
+    connection?: string;
+    seeder?: string;
 }
 
-/**
- * CLI Seed命令参数
- */
-export interface SeedArguments {
+export interface TypeOrmArguments {
     connection?: string;
-    class?: string;
-    forceInit?: boolean;
+    config?: string;
+}
+
+export interface MigrationCreateArguments extends TypeOrmArguments {
+    name: string;
+    dir?: string;
+}
+
+export interface MigrationGenerateArguments extends TypeOrmArguments {
+    name: string;
+    dir?: string;
+    pretty?: boolean;
+}
+
+export interface MigrationRunArguments extends TypeOrmArguments {
+    transaction?: string;
+    pretty?: boolean;
+    seed?: string;
+    seeder?: string;
+}
+
+export interface MigrationRevertArguments extends TypeOrmArguments {
+    transaction?: string;
+    pretty?: boolean;
+}
+
+export interface MigrationRefreshArguments extends TypeOrmArguments {
+    transaction?: string;
+    pretty?: boolean;
+    seed?: string;
+    seeder?: string;
 }
 
 /**
@@ -33,7 +73,7 @@ export interface Seeder {
 export type SeederConstructor = new (
     seeders: SeederConstructor[],
     spinner: ora.Ora,
-    args: SeedArguments,
+    args: yargs.Arguments<DbSeedArguments>,
 ) => Seeder;
 
 /**

@@ -61,7 +61,7 @@ export function defineFactory<Entity, Settings>(
     entity: ObjectType<Entity>,
     factoryFn: DataFactoryFunction<Entity, Settings>,
 ) {
-    (global as any).db.entityFactories.set(entityName(entity), {
+    (global as any).dbFactories.set(entityName(entity), {
         entity,
         factory: factoryFn,
     });
@@ -77,7 +77,7 @@ export const factory: DataFactory = <Entity, Settings>(
     entity: ObjectType<Entity>,
 ) => (settings?: Settings) => {
     const name = entityName(entity);
-    const entityFactoryObject = (global as any).db.entityFactories.get(name);
+    const entityFactoryObject = (global as any).dbFactories.get(name);
     return new EntityFactory<Entity, Settings>(
         name,
         entity,

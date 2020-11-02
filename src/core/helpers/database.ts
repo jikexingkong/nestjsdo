@@ -22,21 +22,23 @@ const db = () => Gkr.util.get(Database);
  * 获取所有数据库的连接配置
  *
  * @export
- * @returns {DbOption[]}
+ * @template T
+ * @returns {T[]}
  */
-export function dbConfigs(): DbOption[] {
-    return db().getOptions();
+export function dbOptions<T extends DbOption = DbOption>(): T[] {
+    return db().getOptions<T>();
 }
 
 /**
  * 通过名称获取一个数据库的连接配置
  *
  * @export
+ * @template T
  * @param {string} [name]
- * @returns {DbOption}
+ * @returns {T}
  */
-export function dbConfig(name?: string): DbOption {
-    return db().getOption(name);
+export function dbOption<T extends DbOption = DbOption>(name?: string): T {
+    return db().getOption<T>(name);
 }
 
 /**

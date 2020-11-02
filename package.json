@@ -20,7 +20,8 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "ts-node": "cross-env NODE_ENV=development ts-node --files -T -r tsconfig-paths/register",
-    "typeorm": "yarn ts-node ./node_modules/typeorm/cli.js --config console/dboptions.ts"
+    "typeorm": "yarn ts-node ./node_modules/typeorm/cli.js --config console/dboptions.ts",
+    "console": "yarn ts-node ./src/console/bin.ts"
   },
   "dependencies": {
     "@nestjs/common": "^7.0.0",
